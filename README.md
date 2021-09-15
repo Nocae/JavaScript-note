@@ -186,6 +186,358 @@ if(test){
 
 ### 关键字与保留字
 
+ECMA-262描述了一组保留的关键字，关键字有特殊的用途  
+保留的关键字不能用作标识符或属性名
+
+|||||
+|:-:|:-:|:-:|:-:|
+|break|do|in|typeof|
+|case|else|instanceof|var|
+|catch|export|new|void|
+|class|extends|return|while|
+|const|finally|super|with|
+|continue|for|switch|yield|
+|debugger|function|this||
+|default|if|throw||
+|delete|import|try||
+
+
+规范中也描述了一组**未来的保留字**，同样**不能用作标识符或属性名**
+
+始终保留:
+
+enum
+
+严格模式下保留:
+
+implements  package     public
+interface   protected   static
+let         private
+
+
+模块代码中保留:
+
+await
+
+这些词汇不能用作标识符，但现在可以用作对象的属性名  
+最好不要使用关键字和保留字作为标识符和属性名，确保兼容过去和未来的ECMAScript版本
+
+### 变量
+
+#### var关键字
+
+可以用它保存任何类型的值（不初始化的情况下，变量会保存一个特殊值undefined）  
+不仅可以改变保存的值，也可以改变值的类型。合法，但不推荐（可以有，但没必要）
+
+1. var声明作用域
+
+使用var操作符定义的变量会成为包含它的函数的局部变量  
+如：使用var在一个函数内部定义一个变量，意味着该变量在函数退出是被销毁
+
+```js
+function test(){
+    var message = "hi";
+}
+test();
+console.log(message); // 出错
+```
+
+在函数内定义变量是省略var操作符，可以创建一个全局变量
+
+```js
+function test(){
+    message = "hi";
+}
+test();
+console.log(message); // "hi"
+```
+
+如果需要定义多个变量，可以在一条语句中用逗号分隔每个变量  
+在严格模式下，不能定义名为eval和arguments的变量，否则会导致语法错误
+
+2. var声明提升
+
+就是把所有变量声明都拉到函数作用域的顶部  
+反复多次使用var声明同一个变量也没问题
+
+#### let声明
+
+let跟var的作用差不多，但有着非常重要的区别  
+最明显的区别就是，let声明的范围是块作用域，var声明的是范围是函数作用域
+
+```js
+if(true){
+    let age = 26;
+    console.log(age); // 26
+}
+console.log(age); // ReferenceError:age 没有定义
+```
+
+age变量之所以不能在if块外部被引用，因为它的作用域仅限于该块内部  
+块作用域是函数作用域的自己，因此适用于var的作用域限制同样也适用于let
+
+>let也不允许同一个块级作用域中出现冗余声明，会报错
+
+```js
+var name;
+var name;
+
+let age;
+let age;  // SyntaxError;标识符age已经声明过了
+```
+
+js引擎会记录用于变量声明的标识符及其所在的块作用域，因此嵌套使用相同的标识符不会报错，这是因为同一个块中没有重复声明
+
+>对声明冗余报错不会因混用let和var而受影响
+>这两个关键字声明的并不是不同类型的变量，他们只是指出变量在相关作用域如何存在
+
+```js
+var name;
+let name; // SyntaxError: Identifier 'name' has already been declared
+
+let age;
+var age; // SyntaxError: Identifier 'age' has already been declared
+```
+
+1. 暂时性死区
+
+>let和var的另一个重要区别就是let声明的变量不会在作用域中被提升
+
+```js
+console.log(age);
+
+let age = 22; // ReferenceError: Cannot access 'age' before initialization
+```
+
+解析代码时，js引擎也会注意到后面出现的let声明，只不过在此之前不能以任何方式来引用未声明的变量
+
+- let声明之前的执行瞬间被称为“暂时性死区”
+- 此阶段引用任何后面才声明的变量都会抛出ReferenceError
+
+2. 全局声明
+
+与var关键字不同，使用let在全局作用域中声明的变量**不会成为window对象的属性**（var则会）
+
+```js
+var name = 'matt';
+console.log(window.name); // 'matt'
+
+let age = 26;
+console.log(window.age); // undefined
+```
+
+let声明仍然是在全局作用域中发生的，相应变量会在页面的声明周期内存续  
+为了避免SyntaxError，**必须确保页面不会重复声明同一变量**
+
+3. 条件声明
+
+使用var声明变量时，由于声明会被提升，js引擎会自动将多余的声明在作用域顶部合并为一个声明  
+因为let的作用域是块，所以不可能检查前面是否已经使用let声明过的同名变量，同时不可能在没有声明的情况下声明它
+
+```html
+    <script>
+        var name = 'nicho'
+        let age = 21;
+
+        console.log(name);
+        console.log(age);
+    </script>
+
+    <script>
+        // 假设脚本不确定页面中是否已经声明了同名变量
+        // 那它可以假设还没有声明过
+
+        var name = 'natt';
+        // 这里没问题，因为可以被作为一个提升声明来处理
+        // 不需要检查之前是否声明过同名变量
+        console.log(name);
+
+        let age = 22; // 报错Uncaught SyntaxError: Identifier 'age' has already been declared
+    </script>
+```
+
+使用try/catch语句或typeof操作符也不能解决，因为条件块中let声明的作用域仅限于该块
+
+>为此对于let这个新的ES6声明关键字，不能依赖条件声明模式
+
+4. for循环中的let声明
+
+在let声明之前，for循环定义的迭代变量会渗透到循环体外部  
+改成let后这个问题就消失了，迭代变量的作用域仅限于for循环内部
+
+```js
+for (let index = 0; index < 5; index++) {}
+
+console.log(index); // ReferenceError: index is not defined
+```
+
+```js
+for (let index = 0; index < 5; index++) {
+    setTimeout(()=>console.log(index),0)
+}
+
+// 输出
+0
+1
+2
+3
+4
+```
+
+使用let声明迭代变量时，js引擎会在后台为每个迭代循环声明一个新的迭代变量  
+每个setTimeout引用的都是不同的变量实例  
+这种每次迭代声明一个独立变量实例的行为适用于所有风格的for、for-in、for-of循环
+
+
+#### const声明
+
+const与let基本相同，唯一一个重要区别就是用它声明变量时必须同时初始化变量，且尝试修改const声明的变量会导致运行错误
+
+```js
+const age = 26;
+age = 36; // TypeError: Assignment to constant variable. 给常量赋值报错
+
+// const也不允许重复声明
+const name = '123';
+const name = '234'; // SyntaxError: Identifier 'name' has already been declared
+
+// const 声明的作用域也是块
+const name = 'matt'
+
+if(true){
+    const name = 'nich'
+}
+
+console.log(name); // matt
+```
+
+const 声明的限制只适用于它**指向的变量的引用**  
+如果const引用的是一个对象，那修改这个对象内部的属性并不违反const限制
+
+js引擎会为for循环中let声明分别创建独立的变量实例，虽然const变量跟 let变量很相似  
+但是不能用const来声明迭代变量（迭代变量会自增）
+
+>想用const声明一个不会修改的for循环，也是可以的
+>每次迭代只是创建一个新变量，对于for-of和for-in很有意义
+
+```js
+let i = 0;
+
+for (const j = 7; i < 5; i++){
+    console.log(j);
+}
+// 7 7 7 7 7
+
+for (const key in {a: 1, b: 2}){
+    console.log(key);
+}
+// a,b
+
+for (const value of [1,2,3,4,5]){
+    console.log(value);
+}
+// 1,2,3,4,5
+```
+
+#### 声明风格及最佳实践
+
+- 不使用var；
+- const优先，let次之；
+
+### 数据类型
+
+>ECMAScript有6种简单数据类型（也称为**原始类型**）：Undefined、Null、Boolean、Number、String、Symbol
+>Symbol（符号）是ECMAScript6新增的
+>还有一种复杂数据类型叫做Object（对象），它是一种无序名值对的集合
+
+#### typeof操作符
+
+因为ECMAScript 的类型系统是松散的，所以需要一种手段来确定任意变量的数据类型  
+typeof操作符就是为此而生的（检测并以字符串返回数据类型）
+
+- "undefined"表示值未定义；
+- "boolean"表示值为布尔值；
+- "string"表示值为字符串；
+- "number"表示值为数值；
+- "object"表示值为对象（而不是函数）或null；
+- "function"表示值为函数；
+- "symbol"表示值为符号；
+
+```js
+let message = "some string";
+
+console.log(typeof message); // string
+console.log(typeof(message)); // string
+console.log(typeof 95); // number
+console.log(typeof null); // object
+```
+
+- 调用typeof null返回object，是因为特殊值null被认为是一个空对象的引用
+- 函数在ECMAScript中被认为是对象，并不是数据类型，可是函数也有自己特殊的属性，有必要通过typeof来区分函数和其他对象
+
+#### undefined类型
+
+undefined类型只有一个值，就是特殊值undefined  
+当var或let声明变量没有初始化时，就相当于给变量赋予了undefined值
+
+```js
+let msg;
+
+console.log(msg === undefined); // true
+```
+
+等同于 let msg = undefined; 但这是不必要的，默认情况下，任何未经初始化的变量都会取得undefined值
+
+>增加这个特殊值的目的就是正式明确空对象指针（null）和未初始化变量的区别
+
+包含undefined值得变量跟未定义变量是有区别的
+
+```js
+let msg;
+
+console.log(msg); // undefined
+console.log(age); // ReferenceError: age is not defined
+```
+
+对未声明的变量，只能执行一个有用的操作，就是对它调用typeof，返回的结果是undefined  
+对未声明的变量调用delete也不会报错，但没什么用，实际上在严格模式会抛出错误
+
+>建议在声明变量的同时进行初始化，当typeof返回undefined时，就会知道是因为给定的变量尚未声明，而不是声明了但未初始化
+
+#### Null类型
+
+Null类型只有一个值，即特殊值null  
+逻辑上讲，null表示一个空对象指针，所以给typeof传null会返回"object"
+
+
+>定义将来要保存对象值的变量时，建议使用null初始化，不要使用其他值
+>这样只要检查这个变量的值是不是null就可以知道这个变量是否在后来被被重新赋予了一个对象的引用
+
+```js
+let car  = null;
+
+if (car != null){
+    // car 是一个对象的引用
+}
+```
+
+undefined 值是由null 值派生而来的，因此ECMA-262将他们定义为表面上相等
+
+```js
+console.log(undefined == null); // true
+```
+
+>即使null和undefined有关系，用途也是完全不一样的
+
+>任何时候只要变量要保存对象，而当时有没有那个对象可保存，就要用null来填充该变量
+>这样就保持null是空对象指针的语义，进一步将其与undefined区分开来
+
+#### Boolean类型
+
+Boolean类型是ECMAScript中使用的最频繁的类型之一，两个字面值：true和false
+
+这两个布尔值不同于数值，因此true不等于1，false不等于0
+
 
 
 
