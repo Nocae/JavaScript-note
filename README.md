@@ -538,7 +538,265 @@ Boolean类型是ECMAScript中使用的最频繁的类型之一，两个字面值
 
 这两个布尔值不同于数值，因此true不等于1，false不等于0
 
+布尔值字面量true和false区分大小写，所以True和False（及其他大小混写形式）是有效的标识符，但不是布尔值
 
+>虽然布尔值只有两个，但其他EMCAScript类型的值都有相应布尔值的等价形式
+>将一个其他类型的值转换为布尔值，可以调用特定的Boolean()转型函数：
+
+```js
+let msg = 'Hello World!'
+let msgAsBoolean = Boolean(msg);
+
+console.log(msgAsBoolean); // true
+```
+
+Boolean()转型函数可以在任意类型的数据上调用，而且始终返回一个布尔值  
+什么值能转换为true或false的规则取决于数据类型和实际的值
+
+|数据类型|转换为true的值|转换为false的值|
+|:-:|:-:|:-:|
+|Boolean|true|false|
+|String|非空字符串|""(空字符串)|
+|Number|非零数值（包括无穷值）|0、NaN|
+|Object|任意对象|null|
+|Undefined|N/A（不存在）|undefined|
+
+#### Number类型
+
+Number类型使用IEEE754格式表示整数和浮点数、不同的数值类型相应的也有不同的数值字面量格式
+
+整数也可以用八进制或十六进制字面量表示  
+
+如果字面量中包含的数值超出了应有的范围，就会忽略前缀的零，后面的数字序列会被当成十进制数
+
+```js
+let octalNum1 = 070;
+let octalNum2 = 079;
+let octalNum3 = 08;
+
+console.log(octalNum1); // 八进制56
+console.log(octalNum2); // 无效的八进制，当成79
+console.log(octalNum3); // 无效的八进制，当成8
+```
+
+八进制字面量在严格模式下是无效的，导致JavaScript引擎抛出语法错误
+
+创建十六进制字面量，必须让真正的数值前缀0x（区分大小写），然后是十六进制数字，十六进制数字钟的字母大小写均可
+
+```js
+let hexNum1 = 0xA;
+let hexNum2 = 0x1f;
+
+console.log(hexNum1); // 十六进制10
+console.log(hexNum2); // 十六进制31
+```
+
+1. 浮点值
+
+定义浮点值，数值中必须包含小数点，而且小数点后面必须至少有一个数字
+
+```js
+let floatNum1 = 1.1;
+let floatNum2 = 0.1;
+let floatNum3 = .1;  // 有效，但不推荐
+```
+
+>因为存储浮点值使用的内存空间是存储整数值得两倍，所以ECMAScript总是想发设发把值转换为整数
+>小数点后面没有数字的情况下，数值就会变成整数
+>如果数值本身就是整数，只是小数点后面跟着0，也会被转换为整数
+
+```js
+let floatNum1 = 1.; // 小数点后面没有数字，当成整数1处理
+let floatNum2 = 1.0; // 小数点后面是零，当成整数1处理
+```
+
+对于非常大或非常小的数值，浮点值可以用科学计数法来表示  
+ECMAScript中科学计数法的格式要求是一个数值（整数或浮点数）后跟一个大写或小写的字母e，再加上一个要乘的10的多少次幂
+
+```js
+let floatNum = 3.123e7; // 等于31230000
+```
+
+浮点值的精确度最高可达17位小数，在在算数计算中不如整数精确、如：0.1加0.2得到的不是0.3而是0.30000000000000004
+
+这种微小的舍入错误，导致很难测试特定的浮点值  
+之所以存在这种舍入错误，是因为使用了IEEE754数值，这种错误并非ECMAScript所独有，其他使用相同格式的语言也有这个问题
+
+2. 值的范围
+
+由于内存的限制，ECMAScript并不支持表示这个世界上的所有数值  
+ECMAScript可以表示的最小数值保存在Number.MIN_VALUE中，这个值在多数浏览器中是5e-234;  
+ECMAScript可以表示的最大数值保存在Number.MAX_VALUE，这个值在多数浏览器中是1.7976931348623157e+308
+
+>如果某个计算得到的数值超过了js可以表示的范围，那么这个数值会被自动转换为一个特殊的Infinity（无穷）值。
+>无法表示的负数以-Infinity（负无穷大）表示，无法表示的正数以Infinity（正无穷大）表示
+
+要确定一个值是不是有限大，可以使用isFinite()函数
+
+```js
+const result = Number.MAX_VALUE + Number.MAX_VALUE;
+
+console.log(isFinite(result)); // false
+```
+
+>使用Number.NEGATIVE_INFINITY 和 Number.POSITIVE_INFINITY也可以获取负、正Infinity
+
+3. NaN
+
+有一个特殊的数值叫NaN，意味“不是数值”（not a number），用于表示本来要返回数值的操作失败了（而不是抛出错误）。
+
+ECMAScript中，0、+0或-0相除会返回NaN
+
+```js
+console.log(0/0); // NaN
+console.log(-0/+0); // NaN
+```
+
+如果分子是非0值，分母是有符号0或无符号0，会返回Infinity或-Infinity
+
+```js
+console.log(5/0); // Infinity
+console.log(5/-0); // -Infinity
+```
+
+NaN有几个独特的属性
+
+- 任何涉及NaN的操作始终返回NaN（如NaN/10），连续多步计算时这可能是个问题
+- NaN不等于包括NaN在内的任何值
+
+ECMAScript提供了一个isNaN()函数，该函数接收一个参数，可以是任意数据类型，判断是否“不是数值”  
+把一个值传给isNaN()后，该函数会尝试把它转换为数值  
+某些非数值的值可以直接转换成数值，如字符串"10"或布尔值  
+任何不能转换成数值的值都会导致这个函数返回true
+
+```js
+console.log(isNaN(NaN)); // true
+console.log(isNaN(10)); // false，10是数值
+console.log(isNaN("10")); // false，可以转换成数值10
+console.log(isNaN("blue")); // true，不可以转换为数值
+console.log(isNaN(true)); // false，可以转换为数值1
+```
+
+4.数制转换
+
+有三个函数可以将非数值转换为数值：Number()、paiseInt()和parseFloat()
+
+Number()是转型函数，可用于任何数据类型，后两个函数主要用来将字符串转换为数值
+
+Number()函数基于如下规则执行转换
+
+- 布尔值，true转换为1，false转换为0；
+
+- 数值，直接返回；
+
+- null，返回0；
+
+- undefined，返回NaN；
+
+- 字符串，应用以下规则：
+
+    - 如果字符串包含数值字符，包括数值字符前面加、减号情况，则转换为一个十进制数值（转换后符号消失，同时忽略前面的零）；
+
+	- 如果字符串包含有效的浮点值格式如"1.1"，则会转换为相应的浮点值（忽略前面的零）；
+
+    - 如果字符串包含有效的十六进制格式"0xf"，则会转换为与该十六进制对应的十进制整数值；
+
+	- 如果是空字符串（不包含字符），则返回0；
+
+    - 如果字符串包含除上述情况之外的其他字符，则返回NaN；
+
+- 对象，调用valueOf()方法，并按照上述规则转换返回的值。如果结果是NaN，则调用toString()方法，再按照转换字符串的规则转换；
+
+```js
+console.log(Number("hello")); // NaN
+console.log(Number("")); // 0
+console.log(Number("000011")); // 11
+console.log(Number(true)); // 1
+```
+
+Number()转换字符串时相对复杂且反常规，在需要得到整数时可以优先使用parseInt()函数  
+parseInt()函数更专注于字符串是否包含数值模式，字符串最前面的空格会被忽略，从第一个非空格字符开始转换  
+如果第一个字符不是数值字符、加号或减号，parseInt()立即返回NaN，意味着空字符串也会返回NaN  
+如果第一个字符是数值字符、加号或减号，则继续依次检测每个字符，直到字符串末尾，或**碰到非数值字符(非数值字符后的数值也会被忽略）**
+
+假设字符串中的第一个字符是数值字符，parseInt()函数也能识别不同的整数格式  
+
+```js
+console.log(parseInt("1234blue")); // 1234
+console.log(parseInt("")); // NaN
+console.log(parseInt("0xA")); // 10
+console.log(parseInt(22.5)); // 22
+console.log(parseInt("70")); // 70
+console.log(parseInt("0xf")); // 15
+```
+
+不同的数值格式很容易混淆，因此parseInt()也接收第二个参数，用于指定底数（进制数）
+
+```js
+let num = parseInt("0xAF", 16); // 175
+```
+
+如果提供了十六进制参数，那么字符串前面的"0x"可以省略
+
+```js
+let num1 = parseInt("AF", 16); // 175
+let num2 = parseInt("AF"); // NaN
+```
+
+因为不传底数参数相当于让parseInt()自己决定如何解析，所以为避免解析出错，建议始终传给它第二个参数
+
+parseFloat() 函数的工作方式跟parseInt()函数类似，都是从位置0开始检测每个字符
+
+也是解析到字符串末尾或解析到一个无效的浮点数值字符位置  
+**这意味着第一次出现的小数点是有效的，但第二次出现的小数点就无效了，此时字符串的剩余字符都会被省略**
+
+parseFloat()函数的另一个不同之处在于，始终忽略字符串开头的零  
+这个函数能识别前面讨论的所有浮点格式，以及十进制格式（开头的零始终被忽略）  
+十六进制始终会返回0，因为parseFloat()只解析**十进制值**，因此不能指定底数  
+如果字符串表示整数（没有小数点或者小数点后面只有一个零），则返回整数
+
+```js
+console.log(parseInt("1234blue")); // 1234
+console.log(parseInt("")); // NaN
+console.log(parseInt("0xA")); // 10
+console.log(parseInt(22.5)); // 22
+console.log(parseInt("70")); // 70
+console.log(parseInt("0xf")); // 15
+```
+
+#### String类型
+
+```js
+let firstName = "John";
+let lastName = "Jacob";
+let lastName = "Jingleheimerschmidt'    
+```
+
+ECMAScript语法中表示字符串的引号没有区别，要注意的是，以某种引号作为字符串开头，必须仍然以该种引号作为字符串结尾
+
+1. 字符字面量
+
+字符串数据类型包含一些字符字面量，用于表示非打印字符或有其他用途的字符
+
+
+
+String（字符串）数据类型表示零或多个16位Unicode字符序列
+
+字符串可以使用双引号（"）、单引号（'）或反引号（`）标识
+
+| 字面量 | 含义                                                         |
+| ------ | ------------------------------------------------------------ |
+| \n     | 换行                                                         |
+| \t     | 制表                                                         |
+| \b     | 退格                                                         |
+| \r     | 回车                                                         |
+| \f     | 换页                                                         |
+| \\\    | 反斜杠（\）                                                  |
+| \\'    | 单引号（\'），在字符串以单引号标示时使用，例如\'He said, \\'hey. \\' \' |
+| \\"    | 双引号（\"），在字符串以双引号标示时使用，例如\"He said, \\"hey. \\" \" |
+| \ \`    | 反引号（\`），在字符串以反引号标示时使用，例如\`He said, \ \`hey. \ \` \` |
+| \xnn | 以十六进制编码nn表示的字符（其中n是十六进制数字0~F），如\x41等于"A" |
+| \unnnn | 以十六进制编码nnnn表示的Unicode字符（其中n是十六进制数字0~F），如\u03a3等于希腊字符"∑" |
 
 
 
