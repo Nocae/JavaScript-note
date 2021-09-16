@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="">
-    
-</head>
-<body>
+    <link rel="stylesheet" href="" />
+  </head>
+  <body>
     <!-- <script>
         var name = 'nicho'
         let age = 21;
@@ -24,14 +23,39 @@
         age = 22;
     </script> -->
 
-    <script type="nodule">
-        if(true){
-            let age;
-            console.log(age);
-        }
+    <script>
+      // if(true){
+      //     let age;
+      //     console.log(age);
+      // }
 
-        age = 12;
-        
+      // age = 12;
+
+      let s1 = Symbol("foo"),
+        s2 = Symbol("bar"),
+        s3 = Symbol("baz"),
+        s4 = Symbol("qux");
+
+      const o = {
+        [s1]: "foo val",
+      };
+
+      console.log(o);
+
+      Object.defineProperty(o, s2, { value: "bar val" });
+
+      // Object.defineProperty(o, s2,{
+      //     value: 'bar val'
+      // });
+
+      console.log(o);
+
+      Object.defineProperties(o, {
+        [s3]: { value: "baz val" },
+        [s4]: { value: "qux val" },
+      });
+
+      console.log(o);
     </script>
-</body>
+  </body>
 </html>

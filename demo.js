@@ -8,28 +8,25 @@
 
 // console.log(age);
 
-
 // {
 
 //     let name;
 // }
-
 
 // console.log(name);
 
 // let age;
 // let age;
 
-
 // for (let index = 0; index < 5; index++) {
-    
+
 // }
 
 // console.log(index);
 
 // for (var index = 0; index < 5; index++) {
 //     setTimeout(()=>console.log(index),0)
-    
+
 // }
 
 // for (let index = 0; index < 5; index++) {
@@ -97,7 +94,6 @@
 // let octalNum2 = 079;
 // let octalNum3 = 08;
 
-
 // console.log(octalNum1);
 // console.log(octalNum2);
 // console.log(octalNum3);
@@ -125,13 +121,11 @@
 // console.log(5/0);
 // console.log(5/-0);
 
-
 // console.log(isNaN(NaN));
 // console.log(isNaN(10));
 // console.log(isNaN("10"));
 // console.log(isNaN("blue"));
 // console.log(isNaN(true));
-
 
 // console.log(Number("+123"));
 
@@ -149,9 +143,147 @@
 // console.log(parseInt("70"));
 // console.log(parseInt("0xf"));
 
-console.log(parseFloat("1234blue"));
-console.log(parseFloat("0xA"));
-console.log(parseFloat("22.5"));
-console.log(parseFloat("22.34.5"));
-console.log(parseFloat("0908.5"));
-console.log(parseFloat("3.125e7"));
+// console.log(parseFloat("1234blue"));
+// console.log(parseFloat("0xA"));
+// console.log(parseFloat("22.5"));
+// console.log(parseFloat("22.34.5"));
+// console.log(parseFloat("0908.5"));
+// console.log(parseFloat("3.125e7"));
+
+// let found = true;
+// let foundAsString = found.toString()
+// console.log(foundAsString);
+
+// let num = 10;
+
+// console.log(num.toString());
+// console.log(num.toString(2));
+// console.log(num.toString(8));
+// console.log(num.toString(10));
+// console.log(num.toString(16));
+
+// const muMultiLineString = 'first line\nsecond line';
+
+// const muMultiLineTemplateLiteral = `first line
+// second line`;
+
+// console.log(muMultiLineString);
+
+// console.log(muMultiLineTemplateLiteral);
+
+// console.log(muMultiLineTemplateLiteral === muMultiLineString);
+
+// const value = 5;
+// const exponent = 'second';
+
+// const interpolatedString = value + ' to the ' + exponent + ' power is ' + (value * value);
+
+// const interpolatedTemplateLiteral = `${value} to the ${exponent} power is ${value * value}`;
+
+// console.log(interpolatedString);
+// console.log(interpolatedTemplateLiteral);
+
+// const a = (toString: ()=>'World');
+
+// const a = {
+//     // toString: ()=>'World'
+// }
+
+// console.log(a.toString);
+// console.log(`${a}`);
+
+// const a = 6;
+// const b = 9;
+
+// function simpleTag(strings, ...expressions){
+//     console.log(strings);
+//     for(const expression of expressions){
+//         console.log(expression);
+//     }
+
+//     return 'foobar';
+// }
+// function simpleTag(strings, aValExpression, bValExpression, sumExpression){
+//     console.log(strings);
+//     console.log(aValExpression);
+//     console.log(bValExpression);
+//     console.log(sumExpression);
+
+//     return 'foobar';
+// }
+
+// const untaggedResult = `${ a } + ${ b } = ${ a + b }`;
+
+// const taggedResult = simpleTag`${ a } + ${ b } = ${ a + b }`;
+
+// console.log(untaggedResult);
+// console.log(taggedResult);
+
+// console.log(`\u00A9`);
+// console.log(String.raw`\u00A9`);
+
+// const sym = Symbol()
+// console.log(typeof sym);
+
+// const genericSymbol = Symbol();
+// const otherGenericSymbol = Symbol();
+
+// const fooSymbol = Symbol('foo');
+// const otherSymbol = Symbol('foo');
+
+// console.log(genericSymbol === otherGenericSymbol);
+// console.log(fooSymbol === otherSymbol);
+
+// const genericSymbol = Symbol();
+// console.log(genericSymbol);
+
+// const fooSymbol = Symbol('foo');
+// console.log(fooSymbol);
+
+// const fooGlobalSymbol = Symbol.for('foo');
+// console.log(fooGlobalSymbol);
+
+// const fooGlobalSymbol = Symbol.for('foo');
+// const otherFooGlobalSymbol = Symbol.for('foo');
+
+// console.log(fooGlobalSymbol === otherFooGlobalSymbol);
+
+// const localSymbol = Symbol('foo');
+// const globalSymbol = Symbol.for('foo');
+
+// console.log(localSymbol === globalSymbol);
+
+// const emptyGlobalSymbol = Symbol.for();
+// console.log(emptyGlobalSymbol);
+
+// const s = Symbol.for('foo');
+// console.log(Symbol.keyFor(s));
+
+// const s2 = Symbol('bar');
+// console.log(Symbol.keyFor(s2));
+
+let s1 = Symbol("foo"),
+  s2 = Symbol("bar"),
+  s3 = Symbol("baz"),
+  s4 = Symbol("qux");
+
+const o = {
+  [s1]: "foo val",
+};
+
+// console.log(o);
+
+Object.defineProperty(o, s2, { value: "bar val" });
+
+// Object.defineProperty(o, s2,{
+//     value: 'bar val'
+// });
+
+console.log(o);
+
+Object.defineProperties(o, {
+  [s3]: { value: "baz val" },
+  [s4]: { value: "qux val" },
+});
+
+console.log(o);
