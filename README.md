@@ -1127,6 +1127,232 @@ console.log(o);
 // {Symbol(foo): 'foo val', Symbol(bar): 'bar val', Symbol(baz): 'baz val', Symbol(qux): 'qux val'}
 ```
 
+类似于Object.getOwnPropertyNames()返回对象实例的常规属性数组，Object.getOwnPropertySymbols()返回对象实例的符号属性数组。这两个方法的返回值彼此互斥
+
+Object.getOwnPropertyDescriptors()会返回同时包含常规和符号属性描述符的对象
+
+Reflect.ownKeys()会返回两种类型的键
+
+```js
+const s1 = Symbol('foo'),
+      s2 = Symbol('bar');
+
+const o = {
+    [s1]: 'foo val',
+    [s2]: 'bar val',
+    baz: 'baz val',
+    qux: 'qux val'
+};
+
+console.log(Object.getOwnPropertySymbols(o));
+// [ Symbol(foo), Symbol(bar) ]
+
+console.log(Object.getOwnPropertyNames(o));
+// [ 'baz', 'qux' ]
+
+console.log(Object.getOwnPropertyDescriptors(o));
+/*
+{
+  baz: {
+    value: 'baz val',
+    writable: true,
+    enumerable: true,
+    configurable: true
+  },
+  qux: {
+    value: 'qux val',
+    writable: true,
+    enumerable: true,
+    configurable: true
+  },
+  [Symbol(foo)]: {
+    value: 'foo val',
+    writable: true,
+    enumerable: true,
+    configurable: true
+  },
+  [Symbol(bar)]: {
+    value: 'bar val',
+    writable: true,
+    enumerable: true,
+    configurable: true
+  }
+}
+ */
+
+console.log(Reflect.ownKeys(o));
+// [ 'baz', 'qux', Symbol(foo), Symbol(bar) ]
+```
+
+因为符号属性是对内存中符号的一个引用，所以直接创建并用作属性的符号不会丢失
+
+如果没有显式地保存对这些属性的引用，那么必须遍历对象的所有符号属性才能找到对应的属性键
+
+- Array.prototype.find()：返回数组中满足提供的测试函数的第一个元素的值。否则返回 undefined
+- String.prototype.match()：检索返回一个字符串匹配**正则表达式**的结果
+
+```js
+const o = {
+  [Symbol("foo")]: "foo val",
+  [Symbol("bar")]: "bar val",
+};
+
+console.log(o);
+
+console.log(Object.getOwnPropertySymbols(o));
+
+const barSymbol = Object.getOwnPropertySymbols(o).find((symbol) => symbol.toString().match(/bar/));
+
+console.log(barSymbol);
+// Symbol(bar)
+```
+
+4. 常用内置符号
+
+ECMAScript6也引入了一批**常用内置符号**，用于暴露语言内部行为  
+开发者可以直接访问、重写或模拟这些行为  
+这些符号都是以Symbol工厂函数字串属性的形式存在
+
+这些符号最重要的用途之一就是重新定义它们，改变原生结构的行为  
+这些内置符号没有什么特别之处，就是全局函数Symbol的普通字符串属性，指向一个符号的实例
+
+>所有的内置符号属性都是不可写、不可枚举、不可配置
+>ECMAScript规范中，经常会引用符号在规范中的名称，前缀为@@
+>如@@iterator指的就是Symbol.iterator
+
+5.Symbol.asyncIterator
+
+根据ECMAScript规范，这个符号作为一个属性表示“一个方法，该方法返回对象默认的AsyncIterator。由for-await-of语句使用”。换句话说，这个符号表示实现异步迭代器API的函数
+
+for-await-of循环会利用这个函数执行异步迭代操作
+
+循环时，会调用以Symbol.asyncIterator为键的函数，并期望这个函数会返回一个实现迭代器API的对象  
+很多时候，返回的对象是实现该API的AsyncIterator
+
+我选择先跳过了，我是废物，嘤嘤嘤~~
+
+#### Object类型
+
+EDMAScript中的对象其实就是一组数据和功能的集合
+
+对象通过new操作符后跟对象类型的名称来创建
+
+开发者可以通过创建Object类型的实例来创建自己的对象，然后再给对象添加属性和方法
+
+```js
+const o = new Object();
+```
+
+这个语法类似java，但ECMAScript只要求在构造函数提供参数时使用括号
+
+如没有参数，可以省略括号（不推荐）
+
+Object类型的所有属性和方法在派生的对象上同样存在
+
+每个Object实例都有如下属性和方法
+
+- constructor：用于创建当前对象的函数，前面的例子中，这个属性就是Object()函数；
+- hasOwnProperty(propertyName)：用于判断当前对象实例（不是原型）上是否存在给定的属性。要检查的属性名必须是字符串（如o.hasOwnProperty("name")）或符号；
+- isPrototypeOf(object)：用于判断当前对象是否为另一个对象的原型；
+- propertyIsEnumerable(propertyName)：用于判断给定的属性是否可以使用for-in语句枚举。与hasOwnProperty()一样，属性名必须是字符串；
+- toLocaleString()：返回对象的字符串表示，该字符串反应对象所在的本地化执行环境；
+- toString()：返回对象的字符串表示；
+- valueOf()：返回对象对应的字符串、数值或布尔值表示。通常与toString()返回值相同；
+
+因为Object是所有对象的基类，所以任何对象都有这种属性和方法
+
+### 操作符
+
+ECMA-262描述了一组可用于操作数据的操作符，包括数学操作符、位操作符、关系操作符、相等操作符
+
+ECMAScript中的操作符是独特的，因为它们可用于各种值，包括字符串、数值、布尔值，甚至对象。
+
+应用给对象时，通常会调用valueOf()、toString()方法取得可以计算的值
+
+#### 一元操作符
+
+只操作一个只的操作符叫**一元操作符**
+
+1. 递增/递减操作符
+
+递增和递减操作符直接照搬C语音，但有两个版本：前缀版、后缀版
+
+```js
+const age = 29;
+++age; // 前缀版
+--age;
+
+age++; // 后缀版
+age--;
+```
+
+无论使用前缀递增还是前缀递减操作符，变量的值都会在语句被求值之前改变（副作用）
+
+这四个操作符可以作用于任何值，意思是不限于整数——字符串、布尔值、浮点值，甚至对象都可以，遵循以下规则：
+
+- 对于字符串，如果是有效的数值形式，则转换为数值再应用改变，变量类型从字符串变成数值；
+
+- 对于字符串，如果不是有效的数值形式，则将变量的值设置为NaN，变量类型从字符串变成数值；
+
+- 对于布尔值，如果是false，则转换为0再应用改变，变量类型从布尔值变成数值；
+
+- 对于布尔值，如果是true，则转换为1再应用改变，变量类型从布尔值变成数值；
+
+- 对于浮点值，加一或减一；
+
+- 如果是对象，则调用valueOf()方法取得可以操作的值，对得到的值应用上述规则。如果是NaN，调用toString()并再次应用其他规则，变量类型从对象变成数值；
+
+```js
+let s1 = "2";
+let s2 = "z";
+let b = false;
+let f = 1.1;
+let o = {
+    valueOf(){
+        return -1;
+    }
+};
+
+console.log(++s1); // 3
+console.log(++s2); // NaN
+console.log(++b); // 1
+console.log(--f); // 0.10000000000000009
+console.log(--o); // -2
+```
+
+2. 一元加和减
+
+如果将一元加应用到非数值，则会执行与使用Number()转型函数一样的类型转换，详见Number()函数；
+
+对数值使用一元减会将其变成相应的负值  
+在应用到非数值时，会遵循与一元加同样的规则，先对它们进行转换，然后在取负值；
+
+#### 位操作符
+
+#### 布尔操作符
+
+布尔操作符一共有三个：逻辑非、逻辑与和逻辑或
+
+1. 逻辑非
+
+逻辑非操作符由一个（!）表示，可应用给ES中的任何值  
+它始终返回布尔值，无论应用的是什么数据类型
+
+逻辑非首先将操作数转换为布尔值，然后再对其取反，遵循如下规则：
+
+- 操作数是对象，返回false；
+- 操作数是空字符串，返回true；
+- 操作数是非空字符串，返回false；
+- 操作数是数值0，返回true；
+- 操作数是非零数值（包括Infinity），返回false；
+- 操作数是null，返回true；
+- 操作数是NaN，返回true；
+- 操作数是undefined，返回true
+
+
+
+
+
 # 转义字符
 
 | 显示结果 | 描述   | 实体名称           | 实体编号 |

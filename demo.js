@@ -262,28 +262,77 @@
 // const s2 = Symbol('bar');
 // console.log(Symbol.keyFor(s2));
 
-let s1 = Symbol("foo"),
-  s2 = Symbol("bar"),
-  s3 = Symbol("baz"),
-  s4 = Symbol("qux");
+// let s1 = Symbol("foo"),
+//   s2 = Symbol("bar"),
+//   s3 = Symbol("baz"),
+//   s4 = Symbol("qux");
 
-const o = {
-  [s1]: "foo val",
-};
+// const o = {
+//   [s1]: "foo val",
+// };
+
+// // console.log(o);
+
+// Object.defineProperty(o, s2, { value: "bar val" });
+
+// // Object.defineProperty(o, s2,{
+// //     value: 'bar val'
+// // });
 
 // console.log(o);
 
-Object.defineProperty(o, s2, { value: "bar val" });
-
-// Object.defineProperty(o, s2,{
-//     value: 'bar val'
+// Object.defineProperties(o, {
+//   [s3]: { value: "baz val" },
+//   [s4]: { value: "qux val" },
 // });
 
-console.log(o);
+// console.log(o);
 
-Object.defineProperties(o, {
-  [s3]: { value: "baz val" },
-  [s4]: { value: "qux val" },
-});
+// Object.getOwnPropertyDescriptors
 
-console.log(o);
+// const s1 = Symbol('foo'),
+//       s2 = Symbol('bar');
+
+// const o = {
+//     [s1]: 'foo val',
+//     [s2]: 'bar val',
+//     baz: 'baz val',
+//     qux: 'qux val'
+// };
+
+// console.log(Object.getOwnPropertySymbols(o));
+
+// console.log(Object.getOwnPropertyNames(o));
+
+// console.log(Object.getOwnPropertyDescriptors(o));
+
+// console.log(Reflect.ownKeys(o));
+
+// const o = {
+//   [Symbol("foo")]: "foo val",
+//   [Symbol("bar")]: "bar val",
+// };
+
+// console.log(o);
+
+// console.log(Object.getOwnPropertySymbols(o));
+
+// const barSymbol = Object.getOwnPropertySymbols(o).find((symbol) => symbol.toString().match(/bar/));
+
+// console.log(barSymbol);
+
+let s1 = "2";
+let s2 = "z";
+let b = false;
+let f = 1.1;
+let o = {
+    valueOf(){
+        return -1;
+    }
+};
+
+console.log(++s1);
+console.log(++s2);
+console.log(++b);
+console.log(--f);
+console.log(--o);

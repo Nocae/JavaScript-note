@@ -31,31 +31,32 @@
 
       // age = 12;
 
-      let s1 = Symbol("foo"),
-        s2 = Symbol("bar"),
-        s3 = Symbol("baz"),
-        s4 = Symbol("qux");
+      //   let s1 = Symbol("foo"),
+      //     s2 = Symbol("bar"),
+      //     s3 = Symbol("baz"),
+      //     s4 = Symbol("qux");
 
-      const o = {
-        [s1]: "foo val",
-      };
+      //   const o = {
+      //     [s1]: "foo val",
+      //   };
 
-      console.log(o);
+      //   console.log(o);
 
-      Object.defineProperty(o, s2, { value: "bar val" });
+      //   Object.defineProperty(o, s2, { value: "bar val" });
 
-      // Object.defineProperty(o, s2,{
-      //     value: 'bar val'
-      // });
+      //   // Object.defineProperty(o, s2,{
+      //   //     value: 'bar val'
+      //   // });
 
-      console.log(o);
+      //   console.log(o);
 
-      Object.defineProperties(o, {
-        [s3]: { value: "baz val" },
-        [s4]: { value: "qux val" },
-      });
+      //   Object.defineProperties(o, {
+      //     [s3]: { value: "baz val" },
+      //     [s4]: { value: "qux val" },
+      //   });
 
-      console.log(o);
+      //   console.log(o);
+
     </script>
   </body>
 </html>
