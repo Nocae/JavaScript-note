@@ -382,3 +382,19 @@
 // squared **= 2;
 
 // console.log(squared);
+
+// const result1 = 5 + 5;
+
+// console.log(result1);
+
+// const result2 = 5 + '5';
+
+// console.log(result2);
+
+// const num1 = 5;
+// const num2 = 10;
+// let message1 = "The sum of 5 and 10 is " + num1 + num2;
+// let message2 = "The sum of 5 and 10 is " + (num1 + num2);
+
+// console.log(message1);
+// console.log(message2);
