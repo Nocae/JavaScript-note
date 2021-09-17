@@ -321,18 +321,64 @@
 
 // console.log(barSymbol);
 
-let s1 = "2";
-let s2 = "z";
-let b = false;
-let f = 1.1;
-let o = {
-    valueOf(){
-        return -1;
-    }
-};
+// let s1 = "2";
+// let s2 = "z";
+// let b = false;
+// let f = 1.1;
+// let o = {
+//     valueOf(){
+//         return -1;
+//     }
+// };
 
-console.log(++s1);
-console.log(++s2);
-console.log(++b);
-console.log(--f);
-console.log(--o);
+// console.log(++s1);
+// console.log(++s2);
+// console.log(++b);
+// console.log(--f);
+// console.log(--o);
+
+// const num1 = 25;
+// const num2 = ~num1;
+
+// console.log(num1.toString(2));
+// console.log(num2);
+
+
+// const result = 25 & 4;
+
+// const num2 = 4;
+// const num1 = 25;
+
+// console.log(num2.toString(2));
+// console.log(num1.toString(2));
+
+// console.log(result);
+
+// const oldValue = 2;
+// const newValue = oldValue << 5;
+// console.log(newValue.toString(2));
+
+// const oldValue = 64;
+// const newValue = oldValue >> 5;
+
+// console.log(newValue.toString(2));
+
+// const oldValue = -64;
+// console.log(oldValue.toString(2));
+
+// const newValue = oldValue >>> 5;
+// console.log(newValue);
+
+// const found = true;
+
+// const result = found || someUndeclaredVariable;
+
+// console.log(result);
+
+// console.log(Math.pow(3,2));
+// console.log(3 ** 2);
+
+// let squared = 3;
+// squared **= 2;
+
+// console.log(squared);
