@@ -343,7 +343,6 @@
 // console.log(num1.toString(2));
 // console.log(num2);
 
-
 // const result = 25 & 4;
 
 // const num2 = 4;
@@ -398,3 +397,125 @@
 
 // console.log(message1);
 // console.log(message2);
+// const count = 10;
+// start: for (let i = 0; i < count; i++){
+//     console.log(i);
+//   }
+
+// function addTen(num) {
+//     num += 10;
+//     return num;
+// }
+
+// const  count = 20;
+// let result = addTen(count);
+// console.log(count);
+// console.log(result);
+
+// function setName(obj) {
+//     obj.name = "Nicholas";
+
+// }
+
+// let person = new Object();
+// setName(person);
+// console.log(person.name);
+
+// function setName(obj) {
+//     obj.name = "NIcholas";
+//     obj = new Object();
+//     obj.name = "Greg";
+// }
+
+// let person = new Object();
+// setName(person);
+// console.log(person.name);
+
+// let s = "Nicholas";
+// let b = true;
+// let i = 22;
+// let u;
+// let n = null;
+// let o = new Object();
+
+// console.log(typeof s);
+// console.log(typeof i);
+// console.log(typeof b);
+// console.log(typeof u);
+// console.log(typeof n);
+// console.log(typeof o);
+
+// console.log(person instanceof Object);
+// console.log(colors instanceof Array);
+// console.log(pattern instanceof RegExp);
+
+// var color = "blue";
+
+// console.log();
+
+// function add(num1, num2) {
+//     var sum = num2 + num1;
+//     return sum;
+// }
+
+// let result = add(10, 20);
+// console.log(sum);
+
+// const o1 = {};
+// // o1 = {};
+
+// const o2 = {};
+// o2.name = 'Jake';
+// console.log(o2.name);
+
+// const o3 = Object.freeze({});
+// o3.name = 'Jake';
+// console.log(o3.name);
+
+// function Article() {
+//     this.title = 'INaug';
+//     this.author = 'Jake';
+// }
+
+// let a1 = new Article();
+// let a2 = new Article();
+
+// console.log(a2);
+
+// delete a1.author;
+
+// console.log(a2);
+
+// function Article(opt_author) {
+//   this.title = "INaug";
+//   this.author = opt_author;
+// }
+
+// let a1 = new Article();
+// let a2 = new Article("Jake");
+
+// var name = "The Window";
+
+// var object = {
+//   name: "My Object",
+
+//   getNameFunc: function () {
+//     return function () {
+//       return this.name;
+//     };
+//   },
+// };
+
+// console.log(object.getNameFunc()());
+
+
+var ab = function() {
+    var aa = 0;
+    function b() {
+      aa++;
+      console.log(aa);
+    }
+    return b;
+  }
+
+console.log(typeof ab);
