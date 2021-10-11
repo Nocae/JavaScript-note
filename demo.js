@@ -508,14 +508,75 @@
 
 // console.log(object.getNameFunc()());
 
+// var ab = function() {
+//     var aa = 0;
+//     function b() {
+//       aa++;
+//       console.log(aa);
+//     }
+//     return b;
+//   }
 
-var ab = function() {
-    var aa = 0;
-    function b() {
-      aa++;
-      console.log(aa);
-    }
-    return b;
-  }
+// console.log(typeof ab);
 
-console.log(typeof ab);
+// console.log(Date.toLocaleString());
+// console.log(Date.toString());
+
+// let date = new Date();
+
+// console.log(date.toLocaleString());
+// console.log(date.toString());
+
+// let date = new Date();
+
+// console.log(date);
+// console.log(date.valueOf());
+
+// let date = new Date();
+
+// // console.log(date.now());
+
+// console.log(date.toDateString());
+
+// console.log(date.toTimeString());
+
+// console.log(date.toLocaleDateString());
+
+// console.log(date.toLocaleTimeString());
+
+// console.log(date.toUTCString());
+
+// let pattern1 = /at/g;
+
+// let pattern2 = /[bc]at/i;
+
+// let pattern3 = /.at/gi;
+
+// let s1 = "some text";
+// let s2 = s1.substring(2);
+// console.log(s2);
+
+// let stringValue = "hello ";
+// let result = stringValue.concat("world");
+// let result = stringValue.concat("world", "!");
+// console.log(result);
+
+// let stringValue = "hello World!";
+
+// console.log(stringValue.slice(3));
+// console.log(stringValue.slice(3,8));
+// console.log(stringValue.substring(5));
+// console.log(stringValue.substring(5,8));
+// console.log(stringValue.substr(4));
+// console.log(stringValue.substr(4,9));
+
+// let stringValue = "Lorem ipsum dolor sit amet, consectetur adipisicing elit";
+// let positions = new Array();
+// let pos = stringValue.indexOf("e");
+
+// while (pos > -1) {
+//   positions.push(pos);
+//   pos = stringValue.indexOf("e", pos + 1);
+// }
+
+// console.log(positions);

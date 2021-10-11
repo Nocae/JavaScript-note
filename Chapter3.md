@@ -1798,7 +1798,7 @@ for (prorerty in expression) statement;
 
 #### for-of 语句
 
-for-of 语句是一种严格的迭代语句，用于遍历可迭代对象的元素
+for-of 语句是一种严格的迭代语句，用于**遍历可迭代对象的元素**
 
 ```js
 for (const el of [2, 4, 6, 8]) {
