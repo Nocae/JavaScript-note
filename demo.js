@@ -580,3 +580,144 @@
 // }
 
 // console.log(positions);
+
+// const a = ['foo','bar','baz','qux'];
+
+// const aKeys = Array.from(a.keys());
+// const aValues = Array.from(a.values());
+// const aEntries = Array.from(a.entries());
+
+// console.log(aKeys);
+// console.log(aValues);
+// console.log(aEntries);
+
+// const zeroes = [0,0,0,0,0];
+
+// zeroes.fill(5);
+// console.log(zeroes);
+// zeroes.fill(0);
+
+// let ints,
+//   reset = () => (ints = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+
+// reset();
+
+// console.log(ints);
+
+// ints.copyWithin(0, 5);
+
+// console.log(ints);
+
+// let colors = ['red','blue','green',null];
+
+// console.log(colors.toString());
+// console.log(colors.valueOf());
+// console.log(colors);
+
+// console.log(colors.join('||'));
+
+// let colors = new Array();
+
+// let count = colors.push('red','green');
+
+// console.log(count);
+// console.log(colors);
+
+// count = colors.push('blue');
+// console.log(colors);
+// console.log(count);
+
+// let item = colors.pop();
+// console.log(item);
+// console.log(colors);
+
+// let colors = ["red", "blue"];
+
+// colors.push("brown");
+// colors[3] = "black";
+
+// console.log(colors.length);
+
+// let item = colors.pop();
+// console.log(item);
+
+// function compare(value1, value2) {
+//   if (value1 < value2) {
+//     return -1;
+//   } else if (value2 < value1) {
+//     return 1;
+//   } else {
+//     return0;
+//   }
+// }
+
+// let values = [0, 1, 6, 3, 7, 2];
+
+// // values.sort(compare);
+// console.log(values.sort(compare));
+// console.log(values);
+
+// let colors = ["red", "green", "blue"];
+
+// let removed = colors.splice(0, 1);
+
+// console.log(colors);
+// console.log(removed);
+
+// removed = colors.splice(1, 0, "yellow", "orange");
+
+// console.log(colors);
+// console.log(removed);
+
+// removed = colors.splice(1,1,"red",'purple');
+
+// console.log(colors);
+// console.log(removed);
+
+// let numbers = [1, 2, 3, 4, 5, 4, 3, 2, 1];
+
+// console.log(numbers.indexOf(4));
+// console.log(numbers.lastIndexOf(4));
+// console.log(numbers.includes(4));
+
+// console.log(numbers.indexOf(4, 4));
+// console.log(numbers.lastIndexOf(4, 4));
+// console.log(numbers.includes(4, 7));
+
+// const people = [
+//   { name: "matt", age: 27 },
+//   { name: "nicholas", age: 29 },
+// ];
+
+// console.log(people.find((element, index, array) => element.age < 28));
+
+// console.log(people.findIndex((element, index, array) => element.age < 28));
+
+// const numbers = [1, 2, 3, 4, 5, 4, 3, 2, 1];
+
+// console.log(numbers.every((item, index, array) => item > 2));
+
+// console.log(numbers.some((item, index, array) => item > 2));
+
+// let filterResult = numbers.filter((item, index, array) => item > 2);
+
+// console.log(filterResult);
+
+// let mapResult = numbers.map((item, index, array) => item * 2);
+
+// console.log(mapResult);
+
+// let values = [1, 2, 3, 4, 5];
+
+// let sum = values.reduce((prev, cur, index, array) => prev + cur);
+
+// let sum1 = values.reduceRight((pre, cur, i, ar) => pre + cur);
+
+// console.log(sum);
+// console.log(sum1);
+
+// function name(params) {
+//   function name(params) {
+    
+//   }
+// }
